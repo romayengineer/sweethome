@@ -10,10 +10,49 @@ The shortcuts are:
 
 from typing import Callable, Dict
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import BrowserContext, sync_playwright
 
 from . import browser
 from .sites import remax
+
+
+def goto_home(context: BrowserContext) -> Callable[[], None]:
+    """
+    Returns a shortcut function that navigates to the home page.
+
+    Args:
+        context (BrowserContext): The browser context to use for navigation.
+
+    Returns:
+        Callable[[], None]: A function that navigates to the home page when called.
+    """
+    return lambda: remax.goto.home(context)
+
+
+def goto_login(context: BrowserContext) -> Callable[[], None]:
+    """
+    Returns a shortcut function that navigates to the login page.
+
+    Args:
+        context (BrowserContext): The browser context to use for navigation.
+
+    Returns:
+        Callable[[], None]: A function that navigates to the login page when called.
+    """
+    return lambda: remax.goto.login(context)
+
+
+def goto_departments(context: BrowserContext) -> Callable[[], None]:
+    """
+    Returns a shortcut function that navigates to the departments all page.
+
+    Args:
+        context (BrowserContext): The browser context to use for navigation.
+
+    Returns:
+        Callable[[], None]: A function that navigates to the departments all page when called.
+    """
+    return lambda: remax.goto.departments_all(context)
 
 
 def set() -> Dict[str, Callable[[], None]]:
@@ -37,8 +76,9 @@ def set() -> Dict[str, Callable[[], None]]:
     new_browser = browser.new(play, headless=False)
     context = browser.context(new_browser)
     shortcuts = {
-        "p": lambda: remax.goto.departments_all(context),
-        "a": lambda: remax.goto.departments_all(context),
+        "l": goto_login(context),
+        "h": goto_home(context),
+        "d": goto_departments(context),
     }
     globals().update(shortcuts)
     return shortcuts

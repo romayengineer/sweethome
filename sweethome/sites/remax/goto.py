@@ -11,6 +11,12 @@ def home(context: BrowserContext) -> Page:
     return page
 
 
+def login(context: BrowserContext) -> Page:
+    page = browser.page(context)
+    page.goto(urls.login)
+    return page
+
+
 def departments_all(context: BrowserContext) -> Page:
     page = browser.page(context)
     page.goto(urls.departments_all)
