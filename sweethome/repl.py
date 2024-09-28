@@ -1,5 +1,7 @@
-from .errors import print_exc
 from importlib import import_module
+
+from .errors import print_exc
+
 
 def import_into_globals(command: str) -> None:
     """
@@ -14,6 +16,7 @@ def import_into_globals(command: str) -> None:
     module_name = command.split()[1]
     module = import_module(module_name)
     globals().update({module_name: module})
+
 
 def run():
     """

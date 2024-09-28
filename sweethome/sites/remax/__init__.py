@@ -1,2 +1,1 @@
-from . import urls
-from . import goto
+from . import goto, urls

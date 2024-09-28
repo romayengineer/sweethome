@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 cwd = os.getcwd()
 if cwd not in sys.path:
