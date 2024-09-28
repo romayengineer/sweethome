@@ -35,6 +35,9 @@ def blank_page(play: PlaywrightContextManager) -> Page:
     logger.debug("Creating blank page")
     return page(context(new(play)))
 
-if __name__ == "__main__":
+def new_blank_page() -> Page:
     with sync_playwright() as play:
-        blank_page(play)
+        return blank_page(play)
+
+if __name__ == "__main__":
+    new_blank_page()
