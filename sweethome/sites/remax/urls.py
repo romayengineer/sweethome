@@ -1,36 +1,40 @@
-from collections import namedtuple
-from typing import Dict
+from typing import Dict, NamedTuple
 from urllib.parse import urlencode, urlunparse
 
 domain = "www.remax.com.ar"
-
-Components = namedtuple(
-    typename="Components",
-    field_names=["scheme", "netloc", "url", "path", "query", "fragment"],
-)
+netloc = domain  # TODO map to port 80 or 443
 
 
-def unparse(path: str, query: Dict[str, str] = None) -> str:
+class UrlComponents(NamedTuple):
+    scheme: str
+    netloc: str
+    url: str
+    params: str
+    query: str
+    fragment: str
+
+
+def unparse(url: str = None, query: Dict[str, str] = None) -> str:
     return urlunparse(
-        Components(
+        UrlComponents(
             scheme="https",
-            netloc=domain,
+            netloc=netloc,
+            url=url,
+            params="",
             query=urlencode(query) if query else "",
-            path=path,
-            url="",
             fragment="",
         )
     )
 
 
-home = unparse(path="")
+home = unparse(url="")
 
-login = unparse(path="/iniciar-sesion")
+login = unparse(url="iniciar-sesion")
 
-signup = unparse(path="/registro")
+signup = unparse(url="/registro")
 
 departments_all = unparse(
-    path="/listings/rent",
+    url="/listings/rent",
     query={
         "page": "0",
         "pageSize": "24",

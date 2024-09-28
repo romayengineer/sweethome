@@ -1,7 +1,10 @@
 import unittest
-from sweethome import browser
+
 from playwright.sync_api import expect, sync_playwright
+
 import sweethome.sites.remax as remax
+from sweethome import browser
+
 
 class TestGoto(unittest.TestCase):
 
@@ -16,5 +19,5 @@ class TestGoto(unittest.TestCase):
 
     def test_home(self) -> None:
         page = remax.goto.home(self.context)
-        expect(page).to_have_url(remax.urls.home)
+        expect(page).to_have_url(remax.urls.home + "/")
         page.close()

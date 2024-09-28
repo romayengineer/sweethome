@@ -36,7 +36,10 @@ def set() -> Dict[str, Callable[[], None]]:
     play = sync_playwright().start()
     new_browser = browser.new(play, headless=False)
     context = browser.context(new_browser)
-    shortcuts = {"p": lambda: remax.goto.departments_all(context)}
+    shortcuts = {
+        "p": lambda: remax.goto.departments_all(context),
+        "a": lambda: remax.goto.departments_all(context),
+    }
     globals().update(shortcuts)
     return shortcuts
 
