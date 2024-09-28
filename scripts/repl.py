@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Run the REPL (Read-Eval-Print Loop) for SweetHome.
 
