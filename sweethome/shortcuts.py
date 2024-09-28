@@ -24,7 +24,8 @@ def goto_home(context: BrowserContext) -> Callable[[], None]:
         context (BrowserContext): The browser context to use for navigation.
 
     Returns:
-        Callable[[], None]: A function that navigates to the home page when called.
+        Callable[[], None]: A function that navigates to the home page when
+        called.
     """
     return lambda: remax.goto.home(context)
 
@@ -37,7 +38,8 @@ def goto_login(context: BrowserContext) -> Callable[[], None]:
         context (BrowserContext): The browser context to use for navigation.
 
     Returns:
-        Callable[[], None]: A function that navigates to the login page when called.
+        Callable[[], None]: A function that navigates to the login page when
+        called.
     """
     return lambda: remax.goto.login(context)
 
@@ -50,9 +52,14 @@ def goto_departments(context: BrowserContext) -> Callable[[], None]:
         context (BrowserContext): The browser context to use for navigation.
 
     Returns:
-        Callable[[], None]: A function that navigates to the departments all page when called.
+        Callable[[], None]: A function that navigates to the departments all
+        page when called.
     """
     return lambda: remax.goto.departments_all(context)
+
+
+def goto_next_department(context: BrowserContext) -> Callable[[], None]:
+    return lambda: remax.goto.department_next(context)
 
 
 def set() -> Dict[str, Callable[[], None]]:
@@ -79,6 +86,7 @@ def set() -> Dict[str, Callable[[], None]]:
         "l": goto_login(context),
         "h": goto_home(context),
         "d": goto_departments(context),
+        "n": goto_next_department(context),
     }
     globals().update(shortcuts)
     return shortcuts

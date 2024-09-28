@@ -5,6 +5,8 @@ from urllib.parse import urlencode, urlunparse
 domain = "www.remax.com.ar"
 netloc = domain  # TODO map to port 80 or 443
 
+last_page_index = 0
+
 
 class UrlComponents(NamedTuple):
     scheme: str
@@ -71,6 +73,13 @@ def next_page_url(url: str) -> str:
         )
     )
     return new_url
+
+
+def next_department() -> str:
+    global last_page_index
+    url = get_department_page(page_index=last_page_index + 1)
+    last_page_index += 1
+    return url
 
 
 home = unparse(url="")
