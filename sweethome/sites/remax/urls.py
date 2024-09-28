@@ -1,3 +1,4 @@
+import urllib.parse
 from typing import Dict, NamedTuple
 from urllib.parse import urlencode, urlunparse
 
@@ -42,6 +43,34 @@ def get_department_page(page_index: int) -> str:
             "viewMode": "listViewMode",
         },
     )
+
+
+def next_page_url(url: str) -> str:
+    """
+    Returns url string with page argument increased by 1
+
+    Args:
+        url (str): the url string
+
+    Returns:
+        str: url string with page argument increased by 1
+    """
+    parsed_url = urllib.parse.urlparse(url)
+    query_dict = urllib.parse.parse_qs(parsed_url.query)
+    current_page = int(query_dict["page"][0])
+    query_dict["page"] = [str(current_page + 1)]
+    new_query_string = urllib.parse.urlencode(query_dict, doseq=True)
+    new_url = urllib.parse.urlunparse(
+        components=UrlComponents(
+            scheme=parsed_url.scheme,
+            netloc=parsed_url.netloc,
+            url=parsed_url.path,
+            params=parsed_url.params,
+            query=new_query_string,
+            fragment=parsed_url.fragment,
+        )
+    )
+    return new_url
 
 
 home = unparse(url="")

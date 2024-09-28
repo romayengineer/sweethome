@@ -88,11 +88,13 @@ def run(command: str, shortcuts: Dict[str, Callable[[], None]]) -> bool:
     """
     Runs a shortcut command.
 
-    Checks if the command is a shortcut, and if so, runs the associated function.
+    Checks if the command is a shortcut, and if so, runs the associated
+    function.
 
     Args:
         command (str): The command to check.
-        shortcuts (Dict[str, Callable[[], None]]): A dict containing the shortcuts.
+        shortcuts (Dict[str, Callable[[], None]]): A dict containing the
+        shortcuts.
 
     Returns:
         bool: True if the command was a shortcut, False otherwise.

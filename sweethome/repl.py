@@ -9,7 +9,8 @@ def import_into_globals(command: str) -> None:
     Imports a module into the global namespace.
 
     Args:
-        command (str): A string containing the module name to import, prefixed with 'import '.
+        command (str): A string containing the module name to import, prefixed
+        with 'import '.
 
     Returns:
         None
@@ -21,7 +22,8 @@ def import_into_globals(command: str) -> None:
 
 def run():
     """
-    Runs the REPL (Read-Eval-Print Loop) indefinitely, accepting and executing user commands.
+    Runs the REPL (Read-Eval-Print Loop) indefinitely, accepting and executing
+    user commands.
 
     Args:
         None
