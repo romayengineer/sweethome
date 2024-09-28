@@ -39,7 +39,9 @@ def run():
         if command == "exit":
             break
         try:
-            if shortcuts.run(command, shortcut_functions):
+            called, out = shortcuts.run(command, shortcut_functions)
+            if called:
+                print(out)
                 continue
             if command.startswith("import "):
                 import_into_globals(command)

@@ -8,12 +8,14 @@ The shortcuts are:
 
 """
 
-from typing import Callable, Dict
+from typing import Any, Callable, Dict, Tuple
 
-from playwright.sync_api import BrowserContext, sync_playwright
+from playwright.sync_api import BrowserContext, Page, sync_playwright
 
 from . import browser
 from .sites import remax
+
+current_page = None
 
 
 def goto_home(context: BrowserContext) -> Callable[[], None]:
@@ -55,11 +57,27 @@ def goto_departments(context: BrowserContext) -> Callable[[], None]:
         Callable[[], None]: A function that navigates to the departments all
         page when called.
     """
-    return lambda: remax.goto.departments_all(context)
+    _globals = globals()
+
+    def goto() -> Page:
+        current_page = remax.goto.departments_all(context)
+        _globals.update({"current_page": current_page})
+        return current_page
+
+    return goto
 
 
 def goto_next_department(context: BrowserContext) -> Callable[[], None]:
     return lambda: remax.goto.department_next(context)
+
+
+def get_html() -> Callable[[], str]:
+    _globals = globals()
+
+    def copy() -> str:
+        return remax.copy.html(_globals.get("current_page"))
+
+    return copy
 
 
 def set() -> Dict[str, Callable[[], None]]:
@@ -87,12 +105,13 @@ def set() -> Dict[str, Callable[[], None]]:
         "h": goto_home(context),
         "d": goto_departments(context),
         "n": goto_next_department(context),
+        "c": get_html(),
     }
     globals().update(shortcuts)
     return shortcuts
 
 
-def run(command: str, shortcuts: Dict[str, Callable[[], None]]) -> bool:
+def run(command: str, shortcuts: Dict[str, Callable[[], None]]) -> Tuple[bool, Any]:
     """
     Runs a shortcut command.
 
@@ -108,6 +127,6 @@ def run(command: str, shortcuts: Dict[str, Callable[[], None]]) -> bool:
         bool: True if the command was a shortcut, False otherwise.
     """
     if command in shortcuts:
-        shortcuts[command]()
-        return True
-    return False
+        out = shortcuts[command]()
+        return True, out
+    return False, None
