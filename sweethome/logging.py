@@ -14,8 +14,9 @@ class MockLoggerFile:
         self.logger = logger
 
     def write(self, s):
+        logging_level = logging.getLevelName(logger.getEffectiveLevel()).upper()
         for line in s.splitlines():
-            print("DEBUG: ", line)
+            print(f"{logging_level}: ", line)
         logger.debug(s)
 
 
