@@ -43,8 +43,8 @@ def blank_page(play: PlaywrightContextManager) -> Page:
 
 
 def new_blank_page() -> Page:
-    with sync_playwright() as play:
-        return blank_page(play)
+    play = sync_playwright().start()
+    return blank_page(play)
 
 
 if __name__ == "__main__":

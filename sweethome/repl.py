@@ -1,5 +1,6 @@
 from importlib import import_module
 
+from . import browser
 from .errors import print_exc
 
 
@@ -28,6 +29,7 @@ def run():
     Returns:
         None
     """
+    browser
     while True:
         command = input(">>> ").strip()
         if command == "":
