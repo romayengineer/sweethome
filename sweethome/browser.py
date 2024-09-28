@@ -28,7 +28,7 @@ def page(context: BrowserContext, timeout: int = default_timeout) -> Page:
     return page
 
 
-def blank_page(play: PlaywrightContextManager) -> Page:
+def blank_page(play: PlaywrightContextManager, headless: bool = False) -> Page:
     """
     Creates a blank page.
 
@@ -39,12 +39,12 @@ def blank_page(play: PlaywrightContextManager) -> Page:
         Page: The blank page.
     """
     logger.debug("Creating blank page")
-    return page(context(new(play)))
+    return page(context(new(play, headless=headless)))
 
 
-def new_blank_page() -> Page:
+def new_blank_page(headless: bool = False) -> Page:
     play = sync_playwright().start()
-    return blank_page(play)
+    return blank_page(play, headless=headless)
 
 
 if __name__ == "__main__":

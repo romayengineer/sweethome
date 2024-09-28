@@ -1,1 +1,1 @@
-default_timeout = 10
+default_timeout = 10000
