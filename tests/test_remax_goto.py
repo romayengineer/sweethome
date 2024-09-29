@@ -1,23 +1,28 @@
 import unittest
 
-from playwright.sync_api import expect, sync_playwright
-
 import sweethome.sites.remax as remax
 from sweethome import browser
+from sweethome.logging import Logger
+from sweethome.types import expect, get_context
+
+logger = Logger(__name__)
 
 
 class TestGoto(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.play = sync_playwright().start()
+        logger.info("Setting up test TestGoto")
+        self.play = get_context().start()
         self.browser = browser.new(self.play, headless=True)
         self.context = browser.context(self.browser)
 
     def tearDown(self) -> None:
+        logger.info("Tearing down test TestGoto")
         self.browser.close()
         self.play.stop()
 
     def test_home(self) -> None:
+        logger.info("Testing home")
         page = remax.goto.home(self.context)
         expect(page).to_have_url(remax.urls.home + "/")
         page.close()
@@ -37,6 +42,7 @@ class TestGoto(unittest.TestCase):
         Returns:
             None
         """
+        logger.info("Testing next_page")
         for page_index in range(0, 5):
             page_url = remax.urls.get_department_page(page_index=page_index)
             next_page_url = remax.urls.get_department_page(page_index=page_index + 1)
