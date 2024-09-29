@@ -1,7 +1,9 @@
 from importlib import import_module
 
 from . import shortcuts
-from .errors import print_exc
+from .logging import Logger
+
+logger = Logger(__name__)
 
 
 def import_into_globals(command: str) -> None:
@@ -34,6 +36,7 @@ def run():
     shortcut_functions = shortcuts.set()
     while True:
         command = input(">>> ").strip()
+        logger.info(f">>> {command}")
         if command == "":
             continue
         if command == "exit":
@@ -41,11 +44,12 @@ def run():
         try:
             called, out = shortcuts.run(command, shortcut_functions)
             if called:
-                print(out)
+                logger.info("OUT: %s", out)
                 continue
             if command.startswith("import "):
                 import_into_globals(command)
                 continue
-            print(eval(command))
+            out = eval(command)
+            logger.info("OUT: %s", out)
         except Exception:
-            print_exc()
+            logger.print_exc()

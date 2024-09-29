@@ -10,10 +10,12 @@ support web scraping and data extraction tasks within the SweetHome application.
 import os
 import re
 
-from sweethome.logging import logger
+from sweethome.logging import Logger
 from sweethome.types import Page
 
 from . import copy
+
+logger = Logger(__name__)
 
 
 def get_file_name(page: Page) -> str:

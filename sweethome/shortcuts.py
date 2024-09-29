@@ -10,12 +10,11 @@ The shortcuts are:
 
 from typing import Any, Callable, Dict, Tuple
 
-from playwright.sync_api import BrowserContext, Page, sync_playwright
+import sweethome.types as types
+from sweethome.types import BrowserContext, Page, get_context
 
 from . import base, browser
 from .sites import remax
-
-current_page = None
 
 
 def print_help() -> None:
@@ -70,12 +69,9 @@ def goto_departments(context: BrowserContext) -> Callable[[], None]:
         Callable[[], None]: A function that navigates to the departments all
         page when called.
     """
-    _globals = globals()
 
     def goto() -> Page:
-        current_page = remax.goto.departments_all(context)
-        _globals.update({"current_page": current_page})
-        return current_page
+        return remax.goto.departments_all(context)
 
     return goto
 
@@ -92,10 +88,9 @@ def get_html() -> Callable[[], str]:
         Callable[[], str]: A function that gets the HTML of the current page
         when called.
     """
-    _globals = globals()
 
     def copy() -> str:
-        return remax.copy.html(_globals.get("current_page"))
+        return remax.copy.html(types.current_page)
 
     return copy
 
@@ -109,12 +104,9 @@ def save_html() -> Callable[[], str]:
         and returns the path to the saved file when called.
     """
 
-    # TODO #BUG the current_page is not updated
-    _globals = globals()
-
     def save() -> str:
         return base.pages.save_html(
-            page=_globals.get("current_page"),
+            page=types.current_page,
             overwrite=True,
         )
 
@@ -138,7 +130,7 @@ def set() -> Dict[str, Callable[[], None]]:
     Returns:
         A dict containing the shortcuts.
     """
-    play = sync_playwright().start()
+    play = get_context().start()
     new_browser = browser.new(play, headless=False)
     context = browser.context(new_browser)
     shortcuts = {

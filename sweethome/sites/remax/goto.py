@@ -1,6 +1,5 @@
-from playwright.sync_api import BrowserContext, Page
-
 from sweethome import browser
+from sweethome.types import BrowserContext, Page
 
 from . import urls
 

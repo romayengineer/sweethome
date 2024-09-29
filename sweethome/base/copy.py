@@ -1,6 +1,7 @@
-from playwright.sync_api import Page
+from sweethome.logging import Logger
+from sweethome.types import Page
 
-from sweethome.logging import logger
+logger = Logger(__name__)
 
 
 def html(page: Page) -> str:
