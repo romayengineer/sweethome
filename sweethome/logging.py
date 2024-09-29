@@ -1,5 +1,6 @@
 import io
 import logging
+import os
 import sys
 import traceback
 from datetime import datetime
@@ -49,9 +50,11 @@ class Logger:
             new_handlers.append(stream_handler)
 
         if to_file:
+            # Create logs directory if it doesn't exist
+            os.makedirs("logs", exist_ok=True)
             # Create a FileHandler for writing logs to disk
             date_time_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            file_handler = logging.FileHandler(f"sweethome_{date_time_str}.log")
+            file_handler = logging.FileHandler(f"logs/sweethome_{date_time_str}.log")
             file_handler.setLevel(default_level)
             file_handler.setFormatter(formatter)
             new_handlers.append(file_handler)
