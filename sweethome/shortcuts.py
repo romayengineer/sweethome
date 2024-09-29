@@ -12,7 +12,7 @@ from typing import Any, Callable, Dict, Tuple
 
 from playwright.sync_api import BrowserContext, Page, sync_playwright
 
-from . import browser
+from . import base, browser
 from .sites import remax
 
 current_page = None
@@ -98,6 +98,24 @@ def get_html() -> Callable[[], str]:
         return remax.copy.html(_globals.get("current_page"))
 
     return copy
+
+
+def save_html() -> Callable[[], str]:
+    """
+    Returns a shortcut function that saves the HTML of the current page.
+
+    Returns:
+        Callable[[], str]: A function that saves the HTML of the current page
+        and returns the path to the saved file when called.
+    """
+
+    def save() -> str:
+        return base.pages.save_html(
+            html=remax.copy.html(current_page),
+            page=current_page,
+        )
+
+    return save
 
 
 def set() -> Dict[str, Callable[[], None]]:
