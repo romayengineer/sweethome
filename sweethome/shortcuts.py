@@ -109,9 +109,12 @@ def save_html() -> Callable[[], str]:
         and returns the path to the saved file when called.
     """
 
+    # TODO #BUG the current_page is not updated
+    _globals = globals()
+
     def save() -> str:
         return base.pages.save_html(
-            page=current_page,
+            page=_globals.get("current_page"),
             overwrite=True,
         )
 
