@@ -1,6 +1,8 @@
 import io
 import logging
+import sys
 import traceback
+from datetime import datetime
 from typing import Any
 
 default_level = logging.DEBUG
@@ -30,18 +32,33 @@ class Logger:
     the logger and the handler.
     """
 
-    def __init__(self, name: str, *args, **kwargs):
+    def __init__(
+        self, name: str, *args, to_out: bool = True, to_file: bool = True, **kwargs
+    ):
         # Create a logger
         self.logger = logging.getLogger(name, *args, **kwargs)
         self.logger.setLevel(default_level)
 
-        # Create a StreamHandler for stdout
-        stream_handler = logging.StreamHandler()
-        stream_handler.setLevel(default_level)
-        stream_handler.setFormatter(formatter)
+        new_handlers = []
 
-        # Add the StreamHandler to the logger
-        self.logger.addHandler(stream_handler)
+        if to_out:
+            # Create a StreamHandler for stdout
+            stream_handler = logging.StreamHandler(stream=sys.stdout)
+            stream_handler.setLevel(default_level)
+            stream_handler.setFormatter(formatter)
+            new_handlers.append(stream_handler)
+
+        if to_file:
+            # Create a FileHandler for writing logs to disk
+            date_time_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            file_handler = logging.FileHandler(f"sweethome_{date_time_str}.log")
+            file_handler.setLevel(default_level)
+            file_handler.setFormatter(formatter)
+            new_handlers.append(file_handler)
+
+        # Add the handlers to the logger
+        for handler in new_handlers:
+            self.logger.addHandler(handler)
 
         # Loggers don't have a setFormatter method, we need to set it on handlers
         for handler in self.logger.handlers:
