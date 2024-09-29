@@ -20,9 +20,9 @@ def get_file_name(page: Page) -> str:
     """
     Generate a file name based on the last part of the page URL.
 
-    This function takes a Page object, extracts the last part of its URL,
-    converts it to lowercase, and replaces all non-alphanumeric characters
-    with underscores to create a valid file name.
+    This function takes a Page object, extracts the full path and converts it to
+    lowercase, and replaces all non-alphanumeric characters with underscores to
+    create a valid file name.
 
     Args:
         page (Page): The Page object containing the URL to process.
@@ -34,10 +34,10 @@ def get_file_name(page: Page) -> str:
         If the page URL is "https://example.com/Some-Page/123",
         the function will return "some_page_123".
     """
-    last_path = page.url.split("/")[-1].lower()
+    full_path = page.url.lower()
     # replace all non-alphanumeric characters with an underscore
-    last_path = re.sub(r"\W+", "_", last_path)
-    return last_path
+    file_name = re.sub(r"\W", "_", full_path)
+    return file_name
 
 
 def save_html(page: Page = None, overwrite: bool = False) -> str:
@@ -64,6 +64,7 @@ def save_html(page: Page = None, overwrite: bool = False) -> str:
     # assert page is one word
     if not len(file_name.split()) == 1:
         raise ValueError("Page name must be one word.")
+    # TODO add a random number at the end of the file name
     # check if the file already exists
     file_path = f"data/{file_name}.html"
     if os.path.exists(file_path):
