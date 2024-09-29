@@ -72,6 +72,13 @@ def goto_next_department(context: BrowserContext) -> Callable[[], None]:
 
 
 def get_html() -> Callable[[], str]:
+    """
+    Returns a shortcut function that gets the HTML of the current page.
+
+    Returns:
+        Callable[[], str]: A function that gets the HTML of the current page
+        when called.
+    """
     _globals = globals()
 
     def copy() -> str:
