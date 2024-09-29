@@ -18,6 +18,19 @@ from .sites import remax
 current_page = None
 
 
+def print_help() -> None:
+    """
+    Prints the help message for the shortcuts.
+    """
+    print("Shortcuts:")
+    print("  l: opens the login page")
+    print("  h: opens the home page")
+    print("  d: opens the departments page")
+    print("  n: opens the next department page")
+    print("  c: gets the HTML of the current page")
+    print("  p: prints this help message")
+
+
 def goto_home(context: BrowserContext) -> Callable[[], None]:
     """
     Returns a shortcut function that navigates to the home page.
@@ -113,6 +126,7 @@ def set() -> Dict[str, Callable[[], None]]:
         "d": goto_departments(context),
         "n": goto_next_department(context),
         "c": get_html(),
+        "p": print_help,
     }
     globals().update(shortcuts)
     return shortcuts
