@@ -30,13 +30,22 @@ def page(context: BrowserContext, timeout: int = default_timeout) -> Page:
 
 def blank_page(play: PlaywrightContextManager, headless: bool = False) -> Page:
     """
-    Creates a blank page.
+    Create a new blank page in a browser.
+
+    This function creates a new browser instance, a new context, and a new page
+    in that context, effectively providing a blank page ready for use.
 
     Args:
         play (PlaywrightContextManager): The Playwright context manager.
+        headless (bool, optional): Whether to run the browser in headless mode.
+            Defaults to False.
 
     Returns:
-        Page: The blank page.
+        Page: A new blank Playwright page object.
+
+    Note:
+        This function combines the `new`, `context`, and `page` functions
+        to create a fully set up page in one step.
     """
     logger.debug("Creating blank page")
     return page(context(new(play, headless=headless)))
