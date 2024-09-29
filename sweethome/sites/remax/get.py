@@ -31,6 +31,24 @@ def get_sep_lines(department_index: int) -> str:
 def get_departments_all(page: Page = None) -> List[DepartmentItem]:
     """
     Get the departments from the departments all page.
+
+    This function scrapes department information from the REMAX website.
+    It extracts text content for each department listing, processes it,
+    and logs debug information about the structure of the listings.
+
+    Args:
+        page (Page, optional): The Page object representing the web page to
+        scrape.
+
+    Returns:
+        List[DepartmentItem]: A list of DepartmentItem objects containing
+        the scraped department information. Currently returns an empty list.
+
+    Note:
+        TODO populate the departments_list.
+        This function currently only logs debug information and does not
+        populate the departments_list. Further implementation is needed
+        to extract and return actual department data.
     """
     departments_list: List[DepartmentItem] = []
 
@@ -39,6 +57,8 @@ def get_departments_all(page: Page = None) -> List[DepartmentItem]:
     line_counts = {}
 
     for department_index, department in enumerate(departments_items):
+        # TODO populate the departments_list here
+        #
         # title = department.locator("css=h2").inner_text()
         # price = department.locator("css=div").inner_text()
         # location = department.locator("css=div").inner_text()
