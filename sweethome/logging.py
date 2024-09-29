@@ -4,7 +4,7 @@ import os
 import sys
 import traceback
 from datetime import datetime
-from typing import Any
+from typing import Any, Callable
 
 default_level = logging.DEBUG
 
@@ -95,8 +95,19 @@ class Logger:
         for line in in_memory_file.readlines():
             self.logger.error(line.rstrip("\n"))
 
+    def wrap_log_func(self, func_name: str) -> Callable[[str], None]:
+        func = getattr(self.logger, func_name)
+
+        def log(lines: str, *args, **kwargs):
+            for line in lines.splitlines():
+                func(line, *args, **kwargs)
+
+        return log
+
     def __getattribute__(self, attr: str) -> Any:
         # if attr is not in the logger, return the attribute from the instance
         if attr in ("logger", "print_exc"):
             return object.__getattribute__(self, attr)
+        if attr in ("info", "debug", "warning", "error"):
+            return object.__getattribute__(self, "wrap_log_func")(attr)
         return getattr(self.logger, attr)

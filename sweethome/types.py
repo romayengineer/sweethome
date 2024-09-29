@@ -1,6 +1,6 @@
 from typing import Any
 
-from playwright.sync_api import Browser, BrowserContext
+from playwright.sync_api import Browser, BrowserContext, Locator
 from playwright.sync_api import Page as _Page
 from playwright.sync_api import PlaywrightContextManager as ContextManager
 from playwright.sync_api import Response, expect
@@ -18,6 +18,7 @@ __all__ = [
     "current_page",
     "expect",
     "get_context",
+    "Locator",
 ]
 
 # stores the last page visited

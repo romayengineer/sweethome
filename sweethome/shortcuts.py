@@ -8,26 +8,31 @@ The shortcuts are:
 
 """
 
-from typing import Any, Callable, Dict, Tuple
+from typing import Any, Callable, Dict, List, Tuple
 
 import sweethome.types as types
 from sweethome.types import BrowserContext, Page, get_context
 
 from . import base, browser
+from .logging import Logger
 from .sites import remax
+from .sites.remax.get import DepartmentItem, get_departments_all
+
+logger = Logger(__name__)
 
 
 def print_help() -> None:
     """
     Prints the help message for the shortcuts.
     """
-    print("Shortcuts:")
-    print("  l: opens the login page")
-    print("  h: opens the home page")
-    print("  d: opens the departments page")
-    print("  n: opens the next department page")
-    print("  c: gets the HTML of the current page")
-    print("  p: prints this help message")
+    logger.info("Shortcuts:")
+    logger.info("  l: opens the login page")
+    logger.info("  h: opens the home page")
+    logger.info("  d: opens the departments page")
+    logger.info("  n: opens the next department page")
+    logger.info("  c: gets the HTML of the current page")
+    logger.info("  p: prints this help message")
+    logger.info("  g: gets the departments from the current page")
 
 
 def goto_home(context: BrowserContext) -> Callable[[], None]:
@@ -113,6 +118,17 @@ def save_html() -> Callable[[], str]:
     return save
 
 
+def get_departments_from_page() -> Callable[[], List[DepartmentItem]]:
+    """
+    Returns a shortcut function that gets the departments from the current page.
+
+    Returns:
+        Callable[[], List[DepartmentItem]]: A function that gets the departments
+        from the current page when called.
+    """
+    return lambda: get_departments_all(page=types.current_page)
+
+
 def set() -> Dict[str, Callable[[], None]]:
     """
     Sets shortcuts.
@@ -141,6 +157,7 @@ def set() -> Dict[str, Callable[[], None]]:
         "c": get_html(),
         "p": print_help,
         "s": save_html(),
+        "g": get_departments_from_page(),
     }
     globals().update(shortcuts)
     return shortcuts

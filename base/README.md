@@ -1,1 +1,1 @@
-This folder contains the .html files of the scraped pages.
+This folder contains the database
