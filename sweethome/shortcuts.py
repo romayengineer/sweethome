@@ -111,8 +111,8 @@ def save_html() -> Callable[[], str]:
 
     def save() -> str:
         return base.pages.save_html(
-            html=remax.copy.html(current_page),
             page=current_page,
+            overwrite=True,
         )
 
     return save
@@ -145,6 +145,7 @@ def set() -> Dict[str, Callable[[], None]]:
         "n": goto_next_department(context),
         "c": get_html(),
         "p": print_help,
+        "s": save_html(),
     }
     globals().update(shortcuts)
     return shortcuts

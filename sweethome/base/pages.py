@@ -13,6 +13,8 @@ import re
 from sweethome.logging import logger
 from sweethome.types import Page
 
+from . import copy
+
 
 def get_file_name(page: Page) -> str:
     """
@@ -38,12 +40,11 @@ def get_file_name(page: Page) -> str:
     return last_path
 
 
-def save_html(html: str = None, page: Page = None, overwrite: bool = False) -> str:
+def save_html(page: Page = None, overwrite: bool = False) -> str:
     """
     Saves the html source code into a .html file.
 
     Args:
-        html (str, optional): The html source code to save.
         page (Page, optional): The page object to generate the file name.
         overwrite (bool, optional): If True, the file will be overwritten if it
         exists. Defaults to False.
@@ -59,6 +60,7 @@ def save_html(html: str = None, page: Page = None, overwrite: bool = False) -> s
     if not os.path.exists("data"):
         os.makedirs("data")
     file_name = get_file_name(page)
+    html = copy.html(page)
     # assert page is one word
     if not len(file_name.split()) == 1:
         raise ValueError("Page name must be one word.")
