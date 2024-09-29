@@ -34,7 +34,13 @@ class Logger:
     """
 
     def __init__(
-        self, name: str, *args, to_out: bool = True, to_file: bool = True, **kwargs
+        self,
+        name: str,
+        *args,
+        is_test: bool = False,
+        to_out: bool = True,
+        to_file: bool = True,
+        **kwargs,
     ):
         # Create a logger
         self.logger = logging.getLogger(name, *args, **kwargs)
@@ -54,7 +60,9 @@ class Logger:
             os.makedirs("logs", exist_ok=True)
             # Create a FileHandler for writing logs to disk
             date_time_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            file_handler = logging.FileHandler(f"logs/sweethome_{date_time_str}.log")
+            prefix = "test_" if is_test else ""
+            file_name = f"{prefix}sweethome_{date_time_str}.log"
+            file_handler = logging.FileHandler(f"logs/{file_name}")
             file_handler.setLevel(default_level)
             file_handler.setFormatter(formatter)
             new_handlers.append(file_handler)

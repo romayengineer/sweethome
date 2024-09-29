@@ -5,7 +5,7 @@ from sweethome import browser
 from sweethome.logging import Logger
 from sweethome.types import expect, get_context
 
-logger = Logger(__name__)
+logger = Logger(__name__, is_test=True)
 
 
 class TestGoto(unittest.TestCase):
