@@ -147,7 +147,7 @@ def set() -> Dict[str, Callable[[], None]]:
         A dict containing the shortcuts.
     """
     play = get_context().start()
-    new_browser = browser.new(play, headless=False)
+    new_browser = browser.new(play, headless=True)
     context = browser.context(new_browser)
     shortcuts = {
         "l": goto_login(context),
