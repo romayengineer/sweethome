@@ -64,6 +64,13 @@ def get_departments_all(page: Page = None) -> List[DepartmentItem]:
         # location = department.locator("css=div").inner_text()
         # url = department.locator("css=a").get_attribute("href")
         # departments_list.append(DepartmentItem(title, price, location, url))
+        links = department.locator("xpath=//a").all()
+        links_urls = []
+        for link in links:
+            link_url = link.get_attribute("href").strip()
+            if not link_url:
+                continue
+            links_urls.append(link_url)
         logger.debug(get_sep_lines(department_index))
         publication_text = department.inner_text()
         # split the text into lines
@@ -77,6 +84,8 @@ def get_departments_all(page: Page = None) -> List[DepartmentItem]:
         # debug will split the lines into multiple lines and print each line
         # because there is a wrapper in sweethome.logging.Logger
         logger.debug("\n".join(publication_lines))
+        for link_url in links_urls:
+            logger.debug(f"---- link_url: {link_url}")
         logger.debug(f"---- publication_lines_count: {pulbication_lines_count}")
         logger.debug(f"---- ")
         line_counts[pulbication_lines_count] = (
